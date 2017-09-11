@@ -1,0 +1,1 @@
+Code for an approach to smoothly patch together charts(given) of a manifold to give a global structure
