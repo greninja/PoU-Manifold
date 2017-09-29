@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 
 from sklearn import linear_model  
-from sklear import PolynomialFeatures
+from sklearn import PolynomialFeatures
 
 from itertools import compress      
 
@@ -19,12 +19,29 @@ y = np.outer(np.sin(theta), np.sin(phi))
 z = np.outer(np.cos(theta), np.ones_like(phi))
 
 # Increase the number of points
-xi, yi, zi = sample_spherical(100)
+xi, yi, zi = sample_spherical(200)
 data_points = []
 map(lambda x,y,z : data_points.append((x,y,z)), xi,yi,zi)     
-#fig.show()
-chart1, chart2, chart3, chart4, chart5, chart6 = ([] for i in range(6))
+dictionary_datapoints = {k:np.array(v) for k,v in enumerate(data_points)}
+chart1, chart2, chart3, chart4, chart5, chart6 = (dict() for _ in range(6))
 
+
+"""
+for i, point in dictionary_datapoints.iteritems():
+        if point[2] > 0 :
+            chart1[i] = point[:2] 
+        else:
+        	chart2[i] = point[:2]
+        if point[1] > 0:
+        	chart3[i] = point[::len(point)-1]
+        else:
+        	chart4[i] = point[::len(point)-1]
+        if point[0] > 0:
+        	chart5[i] = point[1:]
+        else:
+        	chart6[i] = point[1:]
+        
+ """
 # Creating the 6 charts of a sphere
 for i in range(len(data_points)):
 		if data_points[i][2] > 0:
@@ -90,66 +107,54 @@ def regression(X, targets, polynomial=False):
 	reg = linear_model.LinearRegression()
 	reg.fit(X, targets) # reg.coef_ will display the coefficients i.e. the estimated beta parameters
 
-# Prerequisite smooth functions 
-def f(t):
-	if t>0:
-		return np.exp(-float(1)/t)
-	return 0
-
-def g(t):
-	return f(t)/(f(t) + f(1-t))
-
-def h(t):
-	return g(t-1)
-
-def k(t):
-	tsquare = np.square(t)
-	return h(tsquare)
-
-def rho(t):
-	return 1 - k(t)
-
-# Non-negative C-infinite bump functions essential for Partition of unity
-
-def bumpfunction1(x): 				# Has compact support between [-1,1]
-	if x > -1  and  x < 1:
-		return np.exp(1/(x**2-1))
-	else :
-		return 0
-
-def bumpfunction2(x):
-	absolute_value = np.abs(x)
-	if  absolute_value <= 1:
-		return 1
-	elif absolute_value >= 2:
-		return 0
-	else:
-		return f(2 - absolute_value) / (f(2 - absolute_value) + f(absolute_value + 1))
-
-def bumpfunction3(x):
-	return f(1+x) * f(1-x)
-
-# From Loring Tu's book
-def bumpfunction4(x):
-	return rho(x)
-
-# To check if a Bump Function is supported in the given chart; return support 
+# To check if a Bump Function is compactly supported in the given chart;
+# should be contained in closure of chart
+# returns support 
 def check(chart, bumpfunction, return_support=False):
 	boolarray = []
-	for dim1, dim2 in chart:
-		mul =  bumpfunction(dim1) * bumpfunction(dim2)
+	for point in chart:
+		res = bumpfunction(point)  
+		mul = np.prod(res) 
 		if mul != 0:
 			boolarray.append(True)
 		else:
 			boolarray.append(False)
 	if any(boolarray):
-		print "{} has is supported in the given chart \
-				(subset of the cover/ atlas) ".format(bumpfunction)
+		print "{} is supported in the given chart", \
+				"(subset of the cover/ atlas) ".format(bumpfunction.func_name)
 
 	# Functionality for returning support of the given bump function
 	if return_support:
 		support = list(compress(xrange(len(boolarray)), boolarray))
 		return support
+
+	# After experimenting not all points are getting included in the union of the supports
+	# Things to cross-verify:
+	# 	(1) Can we write bumpfunction in 'n' variables as the product of individual bfs
+	#	(2) Does the support have to be taken on all the points in original space or just individual charts?? 
+	#   (3) Try on the points from the manifold and not random data points
+	# 	(4) We can also check the locally finite condition by creating neighbourhoods for each point and testing 
+	# 		 whether it intersects finitely many :  sets from {supp(phi_alpha)} (collection of supports of functions)
+	# 	 (5) Show Hari visualizations of all bump functions
+	#	 (6) In general : there is PoU subordinate to an open cover of a Manifold. Here we are taking the sets in 
+	#	 	 open cover to be coordinate patches of a atlas.
+"""
+def check_alternative(chart_dictionary, bumpfunction):
+    chart_list = []
+    for chart_name, chart in chart_dictionary.iteritems(): 
+        boolarray = []
+        for point in chart:
+            res = bumpfunction(point)
+            mul = np.prod(res)
+            if mul != 0:
+                boolarray.append(True)
+            else:
+                boolarray.append(False)
+        if any(boolarray):
+            chart_list.append(chart_name)
+    return chart_list
+"""
+
 
 def calculation(chart, functionlist):
 	numDataPoints, numBumpFunc = len(chart), len(functionlist)
@@ -161,7 +166,28 @@ def calculation(chart, functionlist):
 	normalizing_denominators = np.sum(matrix, 1)
 	final_matrix = matrix / normalizing_denominators[:, np.newaxis]
 
+def check_for_union_of PoU():
+	# union of supports of function  should cover the whole set / manifold
+	# indexing the list of datapoints using dict(enumerate(datapoints))
+
+def main(x, local_function, bumpfunction):
+	global_value = 0
+	for bf in "number of bump functions":
+		global_value += local_function(x) * bf(x)
+	return global_value
+
+# Number of partitions required as the number of dimension of the manifold 
+# or the number of sets in open cover of manifold (here charts) ?? 
+#  How do we prove, either of them?
+# 
+
 # PoU -> convolution operation
 # Think of various scalar valued functions i.e. ( f : R^n -> R )that can be used instead of linear regression on charts
 # Bump function in 'n' variables is defined by taking the product of individual functions
 # Polynomial regression
+# We have created individual charts from the dataset
+# We explored with using C-inf smooth Bump Functions instead of 'pyramid (max{0, r-(c-x)})'
+# Instead of polynomial regression, linear regression we can explore with kernel smoothers
+# How to choose adaptive neighbourhood sizes
+# We have constructed the overlapping charts/ patches s.t. atmost '4' patches overlap at any given point.
+# Shape lying on sphereical manifold dataset
