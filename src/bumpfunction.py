@@ -77,7 +77,7 @@ class BumpFunctions():
 
 def plot_main():
 	bumpfunctionobj = BumpFunctions() 
-	x = np.linspace(-2,2)
+	x = np.linspace(-1,1,1000)
 	y1 = bumpfunctionobj.bumpfunction1(x)
 	y2 = bumpfunctionobj.bumpfunction2(x)
 	y3 = bumpfunctionobj.bumpfunction3(x)
@@ -85,7 +85,7 @@ def plot_main():
 	y5 = bumpfunctionobj.bumpfunction5(x)
  
 	plt.figure(1)
-	plt.subplot(221)
+	plt.subplot(111)
 	plt.plot(x,y1)
 
 	plt.subplot(222)
@@ -94,11 +94,12 @@ def plot_main():
 	plt.subplot(223)
 	plt.plot(x,y3)
 
+	
 	plt.subplot(224)
 	plt.plot(x,y4)
 	
-	#plt.subplot(223)
-	#plt.plot(x,y5)
+	plt.subplot(223)
+	plt.plot(x,y5)
 	plt.show()
 
 if __name__=="__main__":
