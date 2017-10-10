@@ -74,33 +74,47 @@ class BumpFunctions():
 				self.output.append(0)
 		return self.output
 
+	def bumpfunction6(self, x):
+		self.output=[]
+		for i in x:
+			numerator1 = np.square(i) + 1
+			numerator2 = np.exp(4*i/(np.square(i)-1))
+			denominator1 = np.square(i) - 1
+			denominator2 = 1 + numerator2
+			final = numerator1 * numerator2 /  np.square(denominator1 * denominator2)
+			self.output.append(final)
+		return self.output
 
 def plot_main():
 	bumpfunctionobj = BumpFunctions() 
-	x = np.linspace(-1,1,1000)
+	x = np.linspace(-1,1,100)
 	y1 = bumpfunctionobj.bumpfunction1(x)
 	y2 = bumpfunctionobj.bumpfunction2(x)
 	y3 = bumpfunctionobj.bumpfunction3(x)
 	y4 = bumpfunctionobj.bumpfunction4(x)
 	y5 = bumpfunctionobj.bumpfunction5(x)
+	y6 = bumpfunctionobj.bumpfunction6(x)
  
-	plt.figure(1)
-	plt.subplot(111)
-	plt.plot(x,y1)
-
-	plt.subplot(222)
-	plt.plot(x,y2)
-
-	plt.subplot(223)
-	plt.plot(x,y3)
-
+	plt.figure(1,figsize=(14,14))
 	
-	plt.subplot(224)
+	plt.subplot(321)
+	plt.plot(x,y1)
+	
+	plt.subplot(322)
+	plt.plot(x,y2)
+	
+	plt.subplot(323)
+	plt.plot(x,y3)
+	
+	plt.subplot(324)
 	plt.plot(x,y4)
 	
-	plt.subplot(223)
+	plt.subplot(325)
 	plt.plot(x,y5)
+	
+	plt.subplot(326)
+	plt.plot(x, y6)
 	plt.show()
-
+	
 if __name__=="__main__":
 	plot_main()
