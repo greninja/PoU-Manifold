@@ -1,10 +1,16 @@
 from sklearn import linear_model  
 from sklearn import PolynomialFeatures
+try:
+	import cPickle as pickle 
+except:
+	import pickle
 
 # Linear/ Polynomial regression
 def regression(X, targets, polynomial=False):
-	beta = np.random.rand(2,1) # 2 because the dimension of the manifold is 2
-	epsilon = np.asarray([[np.random.normal(0,1)]  for i in range(100)]) # Gaussian noise with mean 0 and standard deviation 1
+	beta = np.random.rand(2,1) # dimension of the manifold is 2
+	
+	# Gaussian noise with mean 0 and standard deviation 1
+	epsilon = np.asarray([[np.random.normal(0,1)]  for i in range(100)]) 
 	
 	if polynomial:
 		# For polynomial regression (Manually)
@@ -21,4 +27,8 @@ def regression(X, targets, polynomial=False):
 	# Generating the targets i.e. the regressands
 	targets = np.dot(X, beta) + epsilon  #  Shape of targets is (100,1)
 	reg = linear_model.LinearRegression()
-	reg.fit(X, targets) # reg.coef_ will display the coefficients i.e. the estimated beta parameters
+	reg.fit(X, targets) # reg.coef_ consists of the estimated parameters
+
+	# Storing the parameters
+	saved_params = pickle.dumps(reg.coef_)
+	return saved_params

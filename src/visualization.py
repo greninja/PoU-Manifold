@@ -20,7 +20,7 @@ x = np.outer(np.sin(theta), np.cos(phi))
 y = np.outer(np.sin(theta), np.sin(phi))
 z = np.outer(np.cos(theta), np.ones_like(phi))
 """
-xi, yi, zi = sample_spherical(400)
+xi, yi, zi = sample_spherical(100)
 data_points = []
 map(lambda x,y,z : data_points.append((x,y,z)), xi,yi,zi)     
 dictionary_datapoints = {k:np.array(v) for k,v in enumerate(data_points)}

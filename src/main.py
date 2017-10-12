@@ -1,5 +1,6 @@
 import numpy as np
 from itertools import compress      
+from bumpfunction import BumpFunction
 
 # Concatenating the charts into 3 pairs
 pair1 = np.concatenate((chart1, chart2), axis=0)
@@ -45,27 +46,8 @@ def check_for_union_of PoU(list_of_charts):
 				support3.add(index)
 			if res4!=0:
 				support4.add(index)
-	# Union of all supports should be equal to open cover or set of manifold
+	# Union of all supports should be equal to open cover or manifold
 	opencover = support1.union(support2, support3, support4)
-
-"""
-# This function checks which all charts is the bumpfunction supported in 
-def check_alternative(chart_dictionary, bumpfunction):
-    chart_list = []
-    for chart_name, chart in chart_dictionary.iteritems(): 
-        boolarray = []
-        for point in chart:
-            res = bumpfunction(point)
-            mul = np.prod(res)
-            if mul != 0:
-                boolarray.append(True)
-            else:
-                boolarray.append(False)
-        if any(boolarray):
-            chart_list.append(chart_name)
-    return chart_list
-"""
-
 
 def calculation(chart, functionlist):
 	numDataPoints, numBumpFunc = len(chart), len(functionlist)
@@ -76,12 +58,6 @@ def calculation(chart, functionlist):
 		matrix[:,i] = result
 	normalizing_denominators = np.sum(matrix, 1)
 	final_matrix = matrix / normalizing_denominators[:, np.newaxis]
-
-def main(x, local_function, bumpfunction):
-	global_value = 0
-	for bf in "number of bump functions":
-		global_value += local_function(x) * bf(x)
-	return global_value
 
 def calculate(input_data_point, set_of_bumpfunctions):
 
