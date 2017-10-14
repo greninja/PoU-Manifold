@@ -40,6 +40,7 @@ class BumpFunctions():
 				self.output.append(0)
 		return self.output
 
+	"""
 	def bumpfunction2(self, x):
 		self.output = []
 		absolute_value = np.abs(x)
@@ -53,19 +54,22 @@ class BumpFunctions():
 					term_2 = self.f(i + 1)
 					self.output.append(term_1/(term_1 + term_2))
 		return self.output
+	"""
 
-	def bumpfunction3(self, x):
+	def bumpfunction2(self, x):
 		self.output = []
 		self.output = list(map(lambda i : self.f(1+i) * self.f(1-i), x))
 		return self.output
-
+	
+	"""
 	def bumpfunction4(self, x):
 		self.output = []
 		for i in x:
 		 	self.output.append(self.rho(i))
 		return self.output
-
-	def bumpfunction5(self, x):
+	"""
+	"""
+	def bumpfunction3(self, x):
 		self.output=[]
 		for i in x:
 			if np.abs(i) < 1:
@@ -73,47 +77,36 @@ class BumpFunctions():
 			else:
 				self.output.append(0)
 		return self.output
-
-	def bumpfunction6(self, x):
+	"""
+	def bumpfunction3(self, x):
 		self.output=[]
 		for i in x:
 			numerator1 = np.square(i) + 1
 			numerator2 = np.exp(4*i/(np.square(i)-1))
 			denominator1 = np.square(i) - 1
 			denominator2 = 1 + numerator2
-			final = numerator1 * numerator2 /  np.square(denominator1 * denominator2)
+			final = (numerator1 * numerator2) /  np.square(denominator1 * denominator2)
 			self.output.append(final)
 		return self.output
 
 def plot_main():
 	bumpfunctionobj = BumpFunctions() 
-	x = np.linspace(-1,1,100)
+	x = np.linspace(-1, 1, 200)
 	y1 = bumpfunctionobj.bumpfunction1(x)
 	y2 = bumpfunctionobj.bumpfunction2(x)
 	y3 = bumpfunctionobj.bumpfunction3(x)
-	y4 = bumpfunctionobj.bumpfunction4(x)
-	y5 = bumpfunctionobj.bumpfunction5(x)
-	y6 = bumpfunctionobj.bumpfunction6(x)
  
 	plt.figure(1,figsize=(14,14))
 	
-	plt.subplot(321)
+	plt.subplot(221)
 	plt.plot(x,y1)
 	
-	plt.subplot(322)
+	plt.subplot(222)
 	plt.plot(x,y2)
 	
-	plt.subplot(323)
+	plt.subplot(223)
 	plt.plot(x,y3)
 	
-	plt.subplot(324)
-	plt.plot(x,y4)
-	
-	plt.subplot(325)
-	plt.plot(x,y5)
-	
-	plt.subplot(326)
-	plt.plot(x, y6)
 	plt.show()
 	
 if __name__=="__main__":

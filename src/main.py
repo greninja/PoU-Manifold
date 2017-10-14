@@ -1,6 +1,9 @@
 import numpy as np
 from itertools import compress      
+
 from bumpfunction import BumpFunction
+from regression import Regression 
+from create_charts import dictionary_of_charts, dictionary_datapoints
 
 # Concatenating the charts into 3 pairs
 pair1 = np.concatenate((chart1, chart2), axis=0)
@@ -59,17 +62,42 @@ def calculation(chart, functionlist):
 	normalizing_denominators = np.sum(matrix, 1)
 	final_matrix = matrix / normalizing_denominators[:, np.newaxis]
 
-def calculate(input_data_point, set_of_bumpfunctions):
+def set_of_charts(index_of_point, dictionary_of_charts):
+	"""
+	Returns the chart the given data point falls in
+	"""
+	included_charts = []
+	for chart_name, chart in dictionary_of_charts.iteritems():
+		if index_of_point in chart:
+			included_charts.append(chart_name)
+	return included_charts
 
+chart_to_bumpfunc = {
+	'chart1' : 'bumpfunction1',
+	'chart2' : 'bumpfunction1',
+	'chart3' : 'bumpfunction2',
+	'chart4' : 'bumpfunction2',
+	'chart5' : 'bumpfunction3',
+	'chart6' : 'bumpfunction3',
+}
 
-# Number of partitions required as the number of dimension of the manifold 
-# or the number of sets in open cover of manifold (here charts) ?? 
-#  How do we prove, either of them?
+def main():
+	bumpfunctionobj = BumpFunction()
+	global_values = np.array()
+	
+	# Calculating the global approximated value for all the 
+	# datapoints lying on the sphere
+	for index, point in dictionary_datapoints.iteritems(): 
+		included_charts = set_of_charts(index, dictionary_of_charts)
+		values = []
+		for chart_name in included_charts:
+			bf = chart_to_bumpfunc[chart_name]
+			point = dictionary_of_charts[chart_name][index]
+			func_value = bumpfunctionobj.bf(point)
+			values.append(func_value)
 
 # Think of various scalar valued functions i.e. ( f : R^n -> R )that can be used instead of linear regression on charts
 # Bump function in 'n' variables is defined by taking the product of individual functions
-
-
 # How to choose adaptive neighbourhood sizes
 
 # After experimenting not all points are getting included in the union of the supports
@@ -79,8 +107,3 @@ def calculate(input_data_point, set_of_bumpfunctions):
 	# 		 whether it intersects finitely many :  sets from {supp(phi_alpha)} (collection of supports of functions)
 	#	 (6) In general : there is PoU subordinate to an open cover of a Manifold. Here we are taking the sets in 
 	#	 	 open cover to be coordinate patches of a atlas.
-
-# EXTRA CODE 
-
-def homeomorphism(x):
-	return np.reciprocal(x)
