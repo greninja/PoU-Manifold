@@ -2,7 +2,7 @@ import numpy as np
 from itertools import compress      
 
 from bumpfunction import BumpFunction
-from regression import Regression 
+from regression import Regression, regression_params
 from create_charts import dictionary_of_charts, dictionary_datapoints
 
 # Concatenating the charts into 3 pairs
@@ -64,7 +64,7 @@ def calculation(chart, functionlist):
 
 def set_of_charts(index_of_point, dictionary_of_charts):
 	"""
-	Returns the chart the given data point falls in
+	Returns all the overlapping charts in which the given data point falls into.
 	"""
 	included_charts = []
 	for chart_name, chart in dictionary_of_charts.iteritems():
@@ -72,29 +72,45 @@ def set_of_charts(index_of_point, dictionary_of_charts):
 			included_charts.append(chart_name)
 	return included_charts
 
+# Caller dispatch
 chart_to_bumpfunc = {
-	'chart1' : 'bumpfunction1',
-	'chart2' : 'bumpfunction1',
-	'chart3' : 'bumpfunction2',
-	'chart4' : 'bumpfunction2',
-	'chart5' : 'bumpfunction3',
-	'chart6' : 'bumpfunction3',
-}
+	'chart1' : bumpfunctionobj.bumpfunction1,
+	'chart2' : bumpfunctionobj.bumpfunction1,
+	'chart3' : bumpfunctionobj.bumpfunction2,
+	'chart4' : bumpfunctionobj.bumpfunction2,
+	'chart5' : bumpfunctionobj.bumpfunction3,
+	'chart6' : bumpfunctionobj.bumpfunction3 
+	}
 
+# Returns a list of global approximation of locally fitted linear functions
 def main():
 	bumpfunctionobj = BumpFunction()
-	global_values = np.array()
+	global_values = []
 	
 	# Calculating the global approximated value for all the 
 	# datapoints lying on the sphere
-	for index, point in dictionary_datapoints.iteritems(): 
+	for index, data_point in dictionary_datapoints.iteritems(): 
 		included_charts = set_of_charts(index, dictionary_of_charts)
-		values = []
+		bumpfunc_values = []
+		linearfunc_values = []
 		for chart_name in included_charts:
-			bf = chart_to_bumpfunc[chart_name]
-			point = dictionary_of_charts[chart_name][index]
-			func_value = bumpfunctionobj.bf(point)
-			values.append(func_value)
+			respective_data_point = dictionary_of_charts[chart_name][index]
+			output_array = chart_to_bumpfunc[chart_name](respective_data_point)
+			func_value = np.prod(output_array)
+			bumpfunc_values.append([func_value])
+
+			reg = regression_params[chart_name]
+			mul = np.dot(reg, respective_data_point.reshape(2,1)) #Reshape to make it 
+												  #suitable for multiplication
+            linearfunc_values.append(mul.reshape(1))
+
+        local_function_products = np.multiply(bumpfunc_values, linearfunc_values)
+
+        # Global value of the locally fitted function
+        global_function_value = np.sum(local_function_products)
+        global_values.append(global_function_value)
+
+    return global_values
 
 # Think of various scalar valued functions i.e. ( f : R^n -> R )that can be used instead of linear regression on charts
 # Bump function in 'n' variables is defined by taking the product of individual functions

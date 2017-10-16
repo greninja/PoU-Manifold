@@ -50,6 +50,7 @@ def create_charts(dictionary_datapoints):
         	chart6[i] = point[1:]
 
 create_charts(dictionary_datapoints)
+
 dictionary_of_charts = {
     'chart1' : chart1,
     'chart2' : chart2,
@@ -58,3 +59,4 @@ dictionary_of_charts = {
     'chart5' : chart5,
     'chart6' : chart6,
 }
+
