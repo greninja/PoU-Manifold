@@ -1,7 +1,7 @@
 import numpy as np 
 from matplotlib import pyplot as plt 
 
-class BumpFunctions():
+class BumpFunction():
 	"""
 	This class contains all the bump functions used for PoU
 	----------
@@ -90,7 +90,7 @@ class BumpFunctions():
 		return self.output
 
 def plot_main():
-	bumpfunctionobj = BumpFunctions() 
+	bumpfunctionobj = BumpFunction() 
 	x = np.linspace(-1, 1, 200)
 	y1 = bumpfunctionobj.bumpfunction1(x)
 	y2 = bumpfunctionobj.bumpfunction2(x)

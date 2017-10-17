@@ -1,14 +1,10 @@
 import numpy as np
+import pprint
 from itertools import compress      
 
 from bumpfunction import BumpFunction
 from regression import Regression, regression_params
 from create_charts import dictionary_of_charts, dictionary_datapoints
-
-# Concatenating the charts into 3 pairs
-pair1 = np.concatenate((chart1, chart2), axis=0)
-pair2 = np.concatenate((chart3, chart4), axis=0)
-pair3 = np.concatenate((chart5, chart6), axis=0)
 
 # To check if a Bump Function is compactly supported in a particular given chart;
 # should be contained in closure of chart
@@ -32,7 +28,7 @@ def check(chart, bumpfunction, return_support=False):
 		return support
 
 # union of supports of function should cover the whole set / manifold
-def check_for_union_of PoU(list_of_charts):
+def check_for_union_of_PoU(list_of_charts):
 	support1,support2,support3,support4 = (set() for _ in range(4))
 	bumpfunctionclass = BumpFunction()
 	for chart in list_of_charts:
@@ -72,6 +68,8 @@ def set_of_charts(index_of_point, dictionary_of_charts):
 			included_charts.append(chart_name)
 	return included_charts
 
+bumpfunctionobj = BumpFunction()
+
 # Caller dispatch
 chart_to_bumpfunc = {
 	'chart1' : bumpfunctionobj.bumpfunction1,
@@ -84,7 +82,6 @@ chart_to_bumpfunc = {
 
 # Returns a list of global approximation of locally fitted linear functions
 def main():
-	bumpfunctionobj = BumpFunction()
 	global_values = []
 	
 	# Calculating the global approximated value for all the 
@@ -97,21 +94,22 @@ def main():
 			respective_data_point = dictionary_of_charts[chart_name][index]
 			output_array = chart_to_bumpfunc[chart_name](respective_data_point)
 			func_value = np.prod(output_array)
-			bumpfunc_values.append([func_value])
-
+			bumpfunc_values.append(func_value)
+		
 			reg = regression_params[chart_name]
-			mul = np.dot(reg, respective_data_point.reshape(2,1)) #Reshape to make it 
-												  #suitable for multiplication
-            linearfunc_values.append(mul.reshape(1))
+			mul = np.dot(reg, respective_data_point.reshape(2,1)) #Reshape to make it suitable for multiplication
+			linearfunc_values.append(np.asscalar(mul)) 
+		
+		local_function_products = np.multiply(bumpfunc_values, linearfunc_values)
+		
+		# Global value of the locally fitted function
+		global_function_value = np.sum(local_function_products)
+		global_values.append(global_function_value)
+	
+	print pprint.pprint(global_values)
 
-        local_function_products = np.multiply(bumpfunc_values, linearfunc_values)
-
-        # Global value of the locally fitted function
-        global_function_value = np.sum(local_function_products)
-        global_values.append(global_function_value)
-
-    return global_values
-
+if __name__=="__main__":
+	main()
 # Think of various scalar valued functions i.e. ( f : R^n -> R )that can be used instead of linear regression on charts
 # Bump function in 'n' variables is defined by taking the product of individual functions
 # How to choose adaptive neighbourhood sizes
