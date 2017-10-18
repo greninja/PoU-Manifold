@@ -1,6 +1,7 @@
 import numpy as np
 import pprint
-from itertools import compress      
+import time 
+from itertools import compress   
 
 from bumpfunction import BumpFunction
 from regression import Regression, regression_params
@@ -83,7 +84,7 @@ chart_to_bumpfunc = {
 # Returns a list of global approximation of locally fitted linear functions
 def main():
 	global_values = []
-	
+	start_time = time.time()
 	# Calculating the global approximated value for all the 
 	# datapoints lying on the sphere
 	for index, data_point in dictionary_datapoints.iteritems(): 
@@ -105,9 +106,10 @@ def main():
 		# Global value of the locally fitted function
 		global_function_value = np.sum(local_function_products)
 		global_values.append(global_function_value)
-	
+	end_time = time.time()
 	print pprint.pprint(global_values)
-
+	print end_time - start_time
+	
 if __name__=="__main__":
 	main()
 # Think of various scalar valued functions i.e. ( f : R^n -> R )that can be used instead of linear regression on charts

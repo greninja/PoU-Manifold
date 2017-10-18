@@ -1,12 +1,13 @@
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 
-from create_charts import *
+from create_charts import * 
 
 # Visualize spherical manifold S^2 in R^3
 fig1 = plt.figure(figsize=(7,7)) #7" * 7 " fig
 ax = fig1.add_subplot(111, projection='3d')
 ax.scatter(xi, yi, zi, s=10, c='b')
+fig1.savefig('../images/sphere_manifold.png')
 
 # Visualize individual charts of the manifold 
 fig2 = plt.figure(figsize=(7,7)) #7" * 7 " fig
@@ -16,6 +17,7 @@ xs1 = list(zip(*chart1.values())[0])
 ys1 = list(zip(*chart1.values())[1])
 ax1 = fig2.add_subplot(321, projection='3d')
 ax1.scatter(xs1, ys1, c='r') 
+
 
 #Chart2
 xs2 = list(zip(*chart2.values())[0])
@@ -47,4 +49,5 @@ zs6 = list(zip(*chart6.values())[1])
 ax6 = fig2.add_subplot(326,projection='3d')
 ax6.scatter(np.zeros(len(ys6)), ys6, zs6, c='g')
 
+fig2.savefig('../images/charts.png')
 plt.show()
