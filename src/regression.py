@@ -16,12 +16,14 @@ def Regression(X, polynomial=False):
 		X[:,1] = xquare
 		targets = np.dot(X, beta) + epsilon
 		
-		# Using sklearn 
-		# poly = PolynomialFeatures(degree=2)
-		# X_ = poly.fit_transform(X)
-		# clf = linear_model.LinearRegression()
-		# clf.fit(X_, targets)
-
+		#Using sklearn 
+		poly = PolynomialFeatures(degree=2)
+		X_ = poly.fit_transform(X)
+		clf = linear_model.LinearRegression()
+		clf.fit(X_, targets)
+		saved_params = clf.coef_
+		return saved_params
+		
 	# Generating the targets i.e. the regressands
 	targets = np.dot(X, beta) + epsilon  #  Shape of targets is (100,1)
 	reg = linear_model.LinearRegression()

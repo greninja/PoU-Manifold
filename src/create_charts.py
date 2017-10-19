@@ -18,7 +18,7 @@ x = np.outer(np.sin(theta), np.cos(phi))
 y = np.outer(np.sin(theta), np.sin(phi))
 z = np.outer(np.cos(theta), np.ones_like(phi))
 """
-xi, yi, zi = sample_spherical(100)
+xi, yi, zi = sample_spherical(1000)
 data_points = []
 map(lambda x,y,z : data_points.append((x,y,z)), xi,yi,zi)     
 dictionary_datapoints = {k:np.array(v) for k,v in enumerate(data_points)}
@@ -59,4 +59,3 @@ dictionary_of_charts = {
     'chart5' : chart5,
     'chart6' : chart6,
 }
-
