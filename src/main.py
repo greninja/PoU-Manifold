@@ -98,10 +98,14 @@ def main():
 			bumpfunc_values.append(func_value)
 		
 			reg = regression_params[chart_name]
-			mul = np.dot(reg, respective_data_point.reshape(2,1)) #Reshape to make it suitable for multiplication
+			mul = np.dot(reg, respective_data_point.reshape(2,1)) #Reshape to make it 
+			                                                      #suitable for multiplication
 			linearfunc_values.append(np.asscalar(mul)) 
 		
-		local_function_products = np.multiply(bumpfunc_values, linearfunc_values)
+		bumpfunc_values = np.asarray(bumpfunc_values)
+		# Normalizing the bump function values to fulfill PoU's conditions
+		normalized_bumpfunc = bumpfunc_values / np.sum(bumpfunc_values) 
+		local_function_products = np.multiply(normalized_bumpfunc, linearfunc_values)
 		
 		# Global value of the locally fitted function
 		global_function_value = np.sum(local_function_products)
