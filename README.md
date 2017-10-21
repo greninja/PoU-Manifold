@@ -1,4 +1,5 @@
-Code for an approach to smoothly patch together charts(given) of a manifold to give a global structure
+Code to smoothly patch together local functions defined on charts (given) of a manifold to give a global approximation. 
+
 
 ## Files description :
 
@@ -13,19 +14,27 @@ Code for an approach to smoothly patch together charts(given) of a manifold to g
 If you averse `.pyc` files:
 
 ```
-cd src/
-python -B main.py
+$ cd src/
+$ python -B main.py
 ```
 
 ## Partition of unity:
 
-A partition of unity is a useful, though technical, tool that helps us work in local coordinates. This can be a tricky matter when we’re doing things all over our manifold, since it’s almost never the case that the entire manifold fits into a single coordinate patch. A (smooth) partition of unity is a way of breaking the function with the constant value 1 up into a bunch of (smooth) pieces that will be easier to work with.
+A partition of unity is a useful, though technical, tool that helps us work in local coordinates. This can be a tricky matter when we’re doing things all over our manifold, since it’s almost never the case that the entire manifold fits into a single coordinate patch. A (smooth) partition of unity is a way of breaking the function with the constant value 1 up into a bunch of (smooth) pieces that are easier to work with.
 
 PoU subordinate to an open cover
 
+## Bump Functions:
+
+A *bump function* is a function on Cartesian Space R^n, for some n ∈ R with values in the real numbers R
+
+							b : R^n -> R  *such that*
+1) **_b_** is smooth
+2) **_b_** has compact support
+ 
 ## Spherical Dataset description:
 
-We have taken patches/ overlapping charts s.t. atmost '4' patches overlap at any given point.
+We have taken patches/ overlapping charts such that atmost 4 patches overlap.
 
 
 ## Global approximation
@@ -37,3 +46,7 @@ We have taken patches/ overlapping charts s.t. atmost '4' patches overlap at any
 - We take the patches to be charts of a manifold, collectively forming a smooth atlas, which are discs in R^2.
 
 - We have created individual charts from the dataset
+
+## Sample dataset:
+
+
