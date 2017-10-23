@@ -50,14 +50,15 @@ Partition of unity can be used to patch together local smooth objects into globa
 
 - Here we are taking the sets in open cover to be coordinate charts of a manifold, collectively forming a smooth atlas, which are discs in R^2.
 
-- We have created individual charts from the dataset
+- We have created 6 different charts from the dataset
 
 - We have fitted linear/ Polynomial curves, locally, on each chart. Plausible further work : Trying to approximate any other scalar valued function (R^n -> R)
 
 ## Spherical Dataset description:
 
-We have taken patches/ overlapping charts such that atmost 4 patches overlap.
+We have taken patches/ overlapping charts such that atmost 4 patches overlap anywhere on the sphere.
 
 ## Sample dataset:
 
-[Spherical manifold dataset Image](images/sphere_manifold.png)
+1. [Spherical manifold dataset Image](images/sphere_manifold.png)
+2. [Six charts of the S^2 manifold](images/charts.png)
