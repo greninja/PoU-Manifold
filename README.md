@@ -60,4 +60,4 @@ We have taken patches/ overlapping charts such that atmost 4 patches overlap.
 
 ## Sample dataset:
 
-[Spherical manifold dataset Image](./src/images/sphere_manifold.png)
+[Spherical manifold dataset Image](images/sphere_manifold.png)
