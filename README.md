@@ -22,7 +22,8 @@ $ python -B main.py
 
 A partition of unity is a useful, though technical, tool that helps us work in local coordinates. This can be a tricky matter when we’re doing things all over our manifold, since it’s almost never the case that the entire manifold fits into a single coordinate patch. A (smooth) partition of unity is a way of breaking the function with the constant value 1 up into a bunch of (smooth) pieces that are easier to work with.
 
-PoU subordinate to an open cover
+PoU subordinate to an open cover 
+Here we are taking the sets in open cover to be coordinate patches of a atlas.
 
 ## Bump Functions:
 
@@ -48,5 +49,3 @@ We have taken patches/ overlapping charts such that atmost 4 patches overlap.
 - We have created individual charts from the dataset
 
 ## Sample dataset:
-
-

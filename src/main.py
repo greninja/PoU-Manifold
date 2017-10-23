@@ -116,14 +116,7 @@ def main():
 	
 if __name__=="__main__":
 	main()
-# Think of various scalar valued functions i.e. ( f : R^n -> R )that can be used instead of linear regression on charts
-# Bump function in 'n' variables is defined by taking the product of individual functions
+# Alternate Scalar valued functions
 # How to choose adaptive neighbourhood sizes
-
-# After experimenting not all points are getting included in the union of the supports
-	# Things to cross-verify:
-	#	(2) Does the support have to be taken on all the points in original space or just individual charts?? 
-	# 	(4) We can also check the locally finite condition by creating neighbourhoods for each point and testing 
-	# 		 whether it intersects finitely many :  sets from {supp(phi_alpha)} (collection of supports of functions)
-	#	 (6) In general : there is PoU subordinate to an open cover of a Manifold. Here we are taking the sets in 
-	#	 	 open cover to be coordinate patches of a atlas.
+# We can also check the locally finite condition by creating neighbourhoods for each point and testing 
+# whether it intersects finitely many :  sets from {supp(phi_alpha)} (collection of supports of functions)
