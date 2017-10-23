@@ -59,3 +59,5 @@ Partition of unity can be used to patch together local smooth objects into globa
 We have taken patches/ overlapping charts such that atmost 4 patches overlap.
 
 ## Sample dataset:
+
+[Spherical manifold dataset Image](src/images/sphere_manifold.png)
