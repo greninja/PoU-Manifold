@@ -13,8 +13,8 @@ Code to smoothly patch together local functions defined on charts (given) of a m
 If you averse `.pyc` files:
 
 ```
-$ cd src/
-$ python -B main.py
+~$ cd src/
+~/src$ python -B main.py
 ```
 
 ## Partition of unity:
