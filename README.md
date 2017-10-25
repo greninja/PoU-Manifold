@@ -33,7 +33,7 @@ More precisely, for any covering of X (a topological space; here it is a manifol
 
 ## Bump Functions:
 
-A *bump function* is a function on Cartesian Space R^n, for some n ∈ R with values in the real numbers R
+A [*bump function*](https://en.wikipedia.org/wiki/Bump_function) is a function on Cartesian Space R^n, for some n ∈ R with values in the real numbers R
 
 					b : R^n -> R  *such that*
 
@@ -46,9 +46,10 @@ Partition of unity can be used to patch together local smooth objects into globa
 
 ## Approach:
 
-- We have taken the smooth functions to be 3 smooth [Bump Functions](https://en.wikipedia.org/wiki/Bump_function)
+- We have taken the smooth functions to be 3 smooth Bump Functions
 
-- Here we are taking the sets in open cover to be coordinate charts of a manifold, collectively forming a smooth atlas, which are discs in R^2.
+- Here we are taking the sets in open cover to be coordinate charts of a manifold, collectively forming a smooth 
+[atlas](https://en.wikipedia.org/wiki/Atlas_(topology)), which are discs in R^2.
 
 - We have created 6 different charts from the dataset
 
