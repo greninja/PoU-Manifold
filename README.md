@@ -46,7 +46,7 @@ Partition of unity can be used to patch together local smooth objects into globa
 
 ## Approach:
 
-- We have taken the smooth functions to be 3 smooth Bump Functions
+- We have taken 3 smooth Bump Functions corresponding to each of the 3 charts a single datapoint lies in, at a time.
 
 - Here we are taking the sets in open cover to be coordinate charts of a manifold, collectively forming a smooth 
 [atlas](https://en.wikipedia.org/wiki/Atlas_(topology)), which are discs in R^2.
