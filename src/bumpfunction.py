@@ -81,12 +81,15 @@ class BumpFunction():
 	def bumpfunction3(self, x):
 		self.output=[]
 		for i in x:
-			numerator1 = np.square(i) + 1
-			numerator2 = np.exp(4*i/(np.square(i)-1), dtype=np.float128)
-			denominator1 = np.square(i) - 1
-			denominator2 = 1 + numerator2
-			final = (numerator1 * numerator2) /  np.square(denominator1 * denominator2)
-			self.output.append(final)
+			if i > -1 and i < 1:
+				numerator1 = np.square(i) + 1
+				numerator2 = np.exp(4*i/(np.square(i)-1), dtype=np.float128)
+				denominator1 = np.square(i) - 1
+				denominator2 = 1 + numerator2
+				final = (numerator1 * numerator2) /  np.square(denominator1 * denominator2)
+				self.output.append(final)
+			else:
+				self.output.append(0.0)
 		return self.output
 
 def plot_main():
