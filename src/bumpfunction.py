@@ -91,7 +91,7 @@ class BumpFunction():
 
 def plot_main():
 	bumpfunctionobj = BumpFunction() 
-	x = np.linspace(-1, 1, 200)
+	x = np.linspace(-1, 1, 1000)
 	y1 = bumpfunctionobj.bumpfunction1(x)
 	y2 = bumpfunctionobj.bumpfunction2(x)
 	y3 = bumpfunctionobj.bumpfunction3(x)
