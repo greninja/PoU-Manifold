@@ -1,9 +1,9 @@
 """
 The data points are uniformly distributed on a unit sphere.
 To generate these 3-dimensional points, we first generate standard
-normally distributed points as vectors lying in 3d space, and then
+normally distributed points as vectors lying in 3D space, and then
 normalize these vectors (X:= X / ||X||) to make it lie on a sphere
-(S^2) which acts as our manifold. 
+(S^2) which acts as an embedded manifold in 3-D ambient space. 
 """
 import numpy as np 
 

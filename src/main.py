@@ -102,7 +102,9 @@ def main():
 			                                                      #suitable for multiplication
 			linearfunc_values.append(np.asscalar(mul)) 
 		
+		# Converting the bumpfunction list to a numpy array to make them compatible for multiplication
 		bumpfunc_values = np.asarray(bumpfunc_values)
+		
 		# Normalizing the bump function values to fulfill PoU's conditions
 		normalized_bumpfunc = bumpfunc_values / np.sum(bumpfunc_values) 
 		local_function_products = np.multiply(normalized_bumpfunc, linearfunc_values)
