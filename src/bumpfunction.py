@@ -1,5 +1,6 @@
 import numpy as np 
 from matplotlib import pyplot as plt 
+from scipy.spatial.distance import euclidean
 
 class BumpFunction():
 	"""
@@ -8,7 +9,7 @@ class BumpFunction():
 	x : a single data point
 	"""
 	def __init__(self):
-		pass
+		self.ORIGIN = [0,0]
 	
 	# Prerequisite smooth functions 
 	def f(self, t):
@@ -31,15 +32,14 @@ class BumpFunction():
 
 	# Non-negative C-infinite bump functions essential for Partition of unity
 
-	def bumpfunction1(self, x): 				# Has compact support between [-1,1]
-		self.output = []
-		for i in x:
-			if i > -1  and i < 1:
-				self.output.append(np.exp(1/(i**2-1)))
-			else :
-				self.output.append(0)
-		return self.output
-
+	#Has compact support between [-1,1]
+	def bumpfunction1(self, x): 				
+		norm = euclidean(x, self.ORIGIN) # Calculating the euclidean norm of the point on S^2 
+		if norm < 1:
+				return np.exp(1/(norm**2-1))
+		else :
+				return 0.0
+		
 	"""
 	def bumpfunction2(self, x):
 		self.output = []
