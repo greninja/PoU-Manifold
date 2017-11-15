@@ -1,6 +1,9 @@
 import numpy as np 
 from matplotlib import pyplot as plt 
 from scipy.spatial.distance import euclidean
+from mpl_toolkits.mplot3d import Axes3D
+
+from create_charts import sample_spherical
 
 class BumpFunction():
 	"""
@@ -36,7 +39,7 @@ class BumpFunction():
 	def bumpfunction1(self, x): 				
 		norm = euclidean(x, self.ORIGIN) # Calculating the euclidean norm of the point on S^2 
 		if norm < 1:
-				return np.exp(1/(norm**2-1))
+				return np.exp(1/(norm**2 - 1))
 		else :
 				return 0.0
 		
@@ -93,8 +96,19 @@ class BumpFunction():
 		return self.output
 
 def plot_main():
+	fig = plt.figure()
+	ax = fig.gca(projection='3d')
+
 	bumpfunctionobj = BumpFunction() 
-	x = np.linspace(-1, 1, 1000)
+	xi, yi, zi = sample_spherical(1000)
+	merged_sample_points = zip(xi, yi)
+	zi = []
+	for point in merged_sample_points:
+		zi.append(bumpfunctionobj.bumpfunction1(point))
+	ax.scatter(xi, yi, zi)
+	plt.show()
+	
+	"""
 	y1 = bumpfunctionobj.bumpfunction1(x)
 	y2 = bumpfunctionobj.bumpfunction2(x)
 	y3 = bumpfunctionobj.bumpfunction3(x)
@@ -111,6 +125,7 @@ def plot_main():
 	plt.plot(x,y3)
 	
 	plt.show()
-	
+	"""
+
 if __name__=="__main__":
 	plot_main()
