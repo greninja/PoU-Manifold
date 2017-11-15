@@ -46,14 +46,18 @@ Partition of unity can be used to patch together local smooth objects into globa
 
 ## Approach:
 
-- We have taken 3 smooth Bump Functions corresponding to each of the 3 charts a single datapoint lies in, at a time.
+- We have taken 2 smooth Bump Functions corresponding to each of the 3 charts a single datapoint lies in, at a time.
 
 - Here we are taking the sets in open cover to be coordinate charts of a manifold, collectively forming a smooth 
 [atlas](https://en.wikipedia.org/wiki/Atlas_(topology)), which are discs in R^2.
 
 - We have created 6 different charts from the dataset
 
-- We have fitted linear/ Polynomial curves, locally, on each chart. Plausible further work : Trying to approximate any other scalar valued function (R^n -> R)
+- We have fitted linear/ Polynomial curves, locally, on each chart. 
+
+## Possible further work : 
+
+Trying to globally approximate any scalar valued function (R^n -> R) other than linearly fitted function
 
 ## Spherical Dataset description:
 

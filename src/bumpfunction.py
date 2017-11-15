@@ -20,19 +20,6 @@ class BumpFunction():
 			return np.exp(-float(1)/t)
 		return 0
 
-	def g(self, t):
-		return self.f(t)/(self.f(t) + self.f(1-t))
-
-	def h(self, t):
-		return self.g(t-1)
-
-	def k(self, t):
-		tsquare = np.square(t)
-		return self.h(tsquare)
-
-	def rho(self, t):
-		return 1 - self.k(t)
-
 	# Non-negative C-infinite bump functions essential for Partition of unity
 
 	#Has compact support between [-1,1]
@@ -43,6 +30,11 @@ class BumpFunction():
 		else :
 				return 0.0
 		
+
+	def bumpfunction2(self, x):
+		norm = euclidean(x, self.ORIGIN)
+		return self.f(1+norm) * self.f(1-norm)
+
 	"""
 	def bumpfunction2(self, x):
 		self.output = []
@@ -58,28 +50,7 @@ class BumpFunction():
 					self.output.append(term_1/(term_1 + term_2))
 		return self.output
 	"""
-
-	def bumpfunction2(self, x):
-		self.output = []
-		self.output = list(map(lambda i : self.f(1+i) * self.f(1-i), x))
-		return self.output
 	
-	"""
-	def bumpfunction4(self, x):
-		self.output = []
-		for i in x:
-		 	self.output.append(self.rho(i))
-		return self.output
-	"""
-	"""
-	def bumpfunction3(self, x):
-		self.output=[]
-		for i in x:
-			if np.abs(i) < 1:
-				self.output.append(1 - np.square(i))
-			else:
-				self.output.append(0)
-		return self.output
 	"""
 	def bumpfunction3(self, x):
 		self.output=[]
@@ -94,38 +65,30 @@ class BumpFunction():
 			else:
 				self.output.append(0.0)
 		return self.output
+	"""
 
 def plot_main():
-	fig = plt.figure()
-	ax = fig.gca(projection='3d')
-
+	fig = plt.figure(figsize=plt.figaspect(0.5))
 	bumpfunctionobj = BumpFunction() 
-	xi, yi, zi = sample_spherical(1000)
+	xi, yi, zi = sample_spherical(500)
 	merged_sample_points = zip(xi, yi)
-	zi = []
+	
+	# For 2 bump functions
+	z1, z2 = [], []
 	for point in merged_sample_points:
-		zi.append(bumpfunctionobj.bumpfunction1(point))
-	ax.scatter(xi, yi, zi)
-	plt.show()
+		z1.append(bumpfunctionobj.bumpfunction1(point))
+		z2.append(bumpfunctionobj.bumpfunction2(point))
 	
-	"""
-	y1 = bumpfunctionobj.bumpfunction1(x)
-	y2 = bumpfunctionobj.bumpfunction2(x)
-	y3 = bumpfunctionobj.bumpfunction3(x)
- 
-	plt.figure(1,figsize=(14,14))
-	
-	plt.subplot(221)
-	plt.plot(x,y1)
-	
-	plt.subplot(222)
-	plt.plot(x,y2)
-	
-	plt.subplot(223)
-	plt.plot(x,y3)
-	
-	plt.show()
-	"""
+	ax1 = fig.add_subplot(121, projection='3d')
+	ax1.scatter(xi, yi, z1, color='b')
+	ax1.set_xlabel('X Axis')
+	ax1.set_ylabel('Y Axis')
+	ax1.set_zlabel('Z Axis')
 
+	ax2 = fig.add_subplot(122, projection='3d')
+	ax2.scatter(xi, yi, z2, color='r')
+
+	plt.show()
+	
 if __name__=="__main__":
 	plot_main()

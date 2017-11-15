@@ -7,15 +7,12 @@ from bumpfunction import BumpFunction
 from regression import Regression, regression_params
 from create_charts import dictionary_of_charts, dictionary_datapoints
 
-# To check if a Bump Function is compactly supported in a particular given chart;
-# should be contained in closure of chart
-# returns support 
-def check(chart, bumpfunction, return_support=False):
+# To check if a Bump Function is compactly supported in a particular given chart
+ def check_for_Bumpfunction_support(chart, bumpfunction, return_support=False):
 	boolarray = []
 	for i, point in chart.iteritems():
 		res = bumpfunction(point)  
-		mul = np.prod(res) 
-		if mul != 0:
+		if res != 0:
 			boolarray.append(True)
 		else:
 			boolarray.append(False)
@@ -28,8 +25,8 @@ def check(chart, bumpfunction, return_support=False):
 		support = list(compress(xrange(len(boolarray)), boolarray))
 		return support
 
-# union of supports of function should cover the whole set / manifold
-def check_for_union_of_PoU(list_of_charts):
+# union of supports of bump functions should cover the whole set / manifold
+def check_for_union_of_supports(list_of_charts):
 	support1,support2,support3,support4 = (set() for _ in range(4))
 	bumpfunctionclass = BumpFunction()
 	for chart in list_of_charts:
@@ -49,6 +46,8 @@ def check_for_union_of_PoU(list_of_charts):
 	# Union of all supports should be equal to open cover or manifold
 	opencover = support1.union(support2, support3, support4)
 
+# Now deprecated function; calculates the normalized values of bump functions at different datapoints
+# This function is currently superceded by functionality added in 'main()' function
 def calculation(chart, functionlist):
 	numDataPoints, numBumpFunc = len(chart), len(functionlist)
 	matrix = np.zeros((numDataPoints, numBumpFunc))
@@ -61,7 +60,8 @@ def calculation(chart, functionlist):
 
 def set_of_charts(index_of_point, dictionary_of_charts):
 	"""
-	Returns all the overlapping charts in which the given data point falls into.
+	Returns all the chart numbers in which the datapoint lies
+	in. (currently: 3 charts at a time for a single datapoint)
 	"""
 	included_charts = []
 	for chart_name, chart in dictionary_of_charts.iteritems():
@@ -69,32 +69,32 @@ def set_of_charts(index_of_point, dictionary_of_charts):
 			included_charts.append(chart_name)
 	return included_charts
 
+# Create an object of the BumpFunction class 
 bumpfunctionobj = BumpFunction()
 
-# Caller dispatch
+# Caller dispatch; the bump functions corresponding to the each chart
 chart_to_bumpfunc = {
 	'chart1' : bumpfunctionobj.bumpfunction1,
-	'chart2' : bumpfunctionobj.bumpfunction1,
-	'chart3' : bumpfunctionobj.bumpfunction2,
+	'chart2' : bumpfunctionobj.bumpfunction2,
+	'chart3' : bumpfunctionobj.bumpfunction1,
 	'chart4' : bumpfunctionobj.bumpfunction2,
-	'chart5' : bumpfunctionobj.bumpfunction3,
-	'chart6' : bumpfunctionobj.bumpfunction3 
+	'chart5' : bumpfunctionobj.bumpfunction1,
+	'chart6' : bumpfunctionobj.bumpfunction2 
 	}
 
-# Returns a list of global approximation of locally fitted linear functions
+# Returns a list of globally approximated values of locally fitted linear functions
 def main():
-	global_values = []
+	global_values = [] 
 	start_time = time.time()
-	# Calculating the global approximated value for all the 
-	# datapoints lying on the sphere
+	
+	#Looping over all the datapoints lying on the embedded spherical manifold 
 	for index, data_point in dictionary_datapoints.iteritems(): 
 		included_charts = set_of_charts(index, dictionary_of_charts)
 		bumpfunc_values = []
 		linearfunc_values = []
 		for chart_name in included_charts:
 			respective_data_point = dictionary_of_charts[chart_name][index]
-			output_array = chart_to_bumpfunc[chart_name](respective_data_point)
-			func_value = np.prod(output_array)
+			func_value = chart_to_bumpfunc[chart_name](respective_data_point) 
 			bumpfunc_values.append(func_value)
 		
 			reg = regression_params[chart_name]
@@ -112,13 +112,10 @@ def main():
 		# Global value of the locally fitted function
 		global_function_value = np.sum(local_function_products)
 		global_values.append(global_function_value)
+	
 	end_time = time.time()
 	print pprint.pprint(global_values)
 	print end_time - start_time
 	
 if __name__=="__main__":
 	main()
-# Alternate Scalar valued functions
-# How to choose adaptive neighbourhood sizes
-# We can also check the locally finite condition by creating neighbourhoods for each point and testing 
-# whether it intersects finitely many :  sets from {supp(phi_alpha)} (collection of supports of functions)
