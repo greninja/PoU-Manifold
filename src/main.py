@@ -99,13 +99,17 @@ def global_approximation(set_of_points, regression_params):
 		# There will be only 3 charts in 'included_charts' and 
 		# hence only 3 bump functions will be non-zero for a single datapoint
 		for chart_name in included_charts:
+			#Retrieving the 2D point from the respective chart 
 			respective_data_point = dictionary_of_charts[chart_name][index]
+			#Calculating the bump function value of the 2d point
 			func_value = chart_to_bumpfunc[chart_name](respective_data_point) 
 			bumpfunc_values.append(func_value)
-		
+			
+			#Retrieving the learned regression parameters from the respective chart
 			reg = regression_params[chart_name]
 			mul = np.dot(reg, respective_data_point.reshape(2,1)) #Reshape to make it 
 			                                                      #suitable for multiplication
+			# Maintaining a list of local linear values, of a single sample point, in each respective chart
 			linearfunc_values.append(np.asscalar(mul)) 
 		
 		# Converting the bumpfunction list to a numpy array to make them compatible for multiplication
@@ -113,7 +117,10 @@ def global_approximation(set_of_points, regression_params):
 		
 		# Normalizing the bump function values to fulfill PoU's conditions
 		normalized_bumpfunc = bumpfunc_values / np.sum(bumpfunc_values) 
-		local_function_products = np.multiply(normalized_bumpfunc, linearfunc_values)
+		
+		# Product of linear function and bump functions i.e. ∑ΨiFi (where Ψ is the bump function 
+		# and F the linear function)
+		local_function_products = np.multiply(normalized_bumpfunc, linearfunc_values) 
 		
 		# Global value of the locally fitted function
 		global_function_value = np.sum(local_function_products)
