@@ -80,12 +80,17 @@ def plot_main():
 	
 	ax1 = fig.add_subplot(121, projection='3d')
 	ax1.scatter(xi, yi, z1, color='b')
+	ax1.text2D(0.05, 0.95, "Bump Function 1", transform=ax1.transAxes)
 	ax1.set_xlabel('X Axis')
 	ax1.set_ylabel('Y Axis')
 	ax1.set_zlabel('Z Axis')
 
 	ax2 = fig.add_subplot(122, projection='3d')
 	ax2.scatter(xi, yi, z2, color='r')
+	ax2.text2D(0.05, 0.95, "Bump Function 2", transform=ax2.transAxes)
+	ax2.set_xlabel('X Axis')
+	ax2.set_ylabel('Y Axis')
+	ax2.set_zlabel('Z Axis')
 
 	fig.savefig('../images/bumpfunctions.png')
 	plt.show()
