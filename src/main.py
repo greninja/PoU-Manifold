@@ -118,7 +118,7 @@ def global_approximation(set_of_points, regression_params):
 		# Normalizing the bump function values to fulfill PoU's conditions
 		normalized_bumpfunc = bumpfunc_values / np.sum(bumpfunc_values) 
 		
-		# Product of linear function and bump functions i.e. ∑ΨiFi (where Ψ is the bump function 
+		# Product of linear function and bump functions i.e. summation(Psi(i) * F(i)) (where 'Psi' is the bump function 
 		# and F the linear function)
 		local_function_products = np.multiply(normalized_bumpfunc, linearfunc_values) 
 		
