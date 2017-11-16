@@ -18,7 +18,6 @@ ys1 = list(zip(*chart1.values())[1])
 ax1 = fig2.add_subplot(321, projection='3d')
 ax1.scatter(xs1, ys1, s=0.5, c='r') 
 
-
 #Chart2
 xs2 = list(zip(*chart2.values())[0])
 ys2 = list(zip(*chart2.values())[1])

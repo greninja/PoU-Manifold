@@ -1,5 +1,3 @@
-Code to smoothly patch together local functions defined on charts (given) of a manifold to give a global approximation. 
-
 ## Files description :
 
 - `bumpfunction.py`  : Consists of a class containing the required smooth C-inf bump functions

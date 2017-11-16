@@ -20,7 +20,7 @@ class BumpFunction():
 			return np.exp(-float(1)/t)
 		return 0
 
-	# Non-negative C-infinite bump functions essential for Partition of unity
+	# Non-negative C-infinite bump functions
 
 	#Has compact support between [-1,1]
 	def bumpfunction1(self, x): 				
@@ -30,7 +30,6 @@ class BumpFunction():
 		else :
 				return 0.0
 		
-
 	def bumpfunction2(self, x):
 		norm = euclidean(x, self.ORIGIN)
 		return self.f(1+norm) * self.f(1-norm)
@@ -88,6 +87,7 @@ def plot_main():
 	ax2 = fig.add_subplot(122, projection='3d')
 	ax2.scatter(xi, yi, z2, color='r')
 
+	fig.savefig('../images/bumpfunctions.png')
 	plt.show()
 	
 if __name__=="__main__":

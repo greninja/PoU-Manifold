@@ -18,20 +18,23 @@ x = np.outer(np.sin(theta), np.cos(phi))
 y = np.outer(np.sin(theta), np.sin(phi))
 z = np.outer(np.cos(theta), np.ones_like(phi))
 """
-xi, yi, zi = sample_spherical(1000)
+xi, yi, zi = sample_spherical(100)
 data_points = []
 map(lambda x,y,z : data_points.append((x,y,z)), xi,yi,zi)     
 dictionary_datapoints = {k:np.array(v) for k,v in enumerate(data_points)}
 chart1, chart2, chart3, chart4, chart5, chart6 = (dict() for _ in range(6))
 
-def create_charts(dictionary_datapoints):
+def CreateCharts(dictionary_datapoints, return_for_evaluating=False):
     """
-    Creating the 6 charts of the sphere. This snippet maps 6 hemispheres
+    Creating the 6 charts of the sphere. This code snippet maps 6 hemispheres
     homeomorphically to 6 different open regions in R^2 (discs). For e.g. :
     the maps (x, y, z) -> (x, y), and its inverse (x, y) -> 
     (x, y, squareroot(1-x^2-y^2)), are continuous maps from the open
     hemisphere (for which z <= 0) to open disk x^2 + y^2 < 1
     and from the open disk back to sphere (S^2), respectively.
+
+    Here, the homeomorphisms can be thought of instances of the map:
+        Gi : S^2 -> Ui, where Ui is the 'i'th chart  
     """    
     for i, point in dictionary_datapoints.iteritems():
         if point[2] > 0 :
@@ -49,7 +52,10 @@ def create_charts(dictionary_datapoints):
         else:
         	chart6[i] = point[1:]
 
-create_charts(dictionary_datapoints)
+    if return_for_evaluating:
+        return (chart1, chart2, chart3, chart4, chart5, chart6)
+
+CreateCharts(dictionary_datapoints)
 
 dictionary_of_charts = {
     'chart1' : chart1,

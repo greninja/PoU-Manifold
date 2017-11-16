@@ -1,3 +1,14 @@
+"""
+Importing the 6 charts is needed to create the map:
+	Hi : Ui -> R, where Ui is the 'i'th chart and 'R' is the set of Reals
+
+Hence the final map, Fi, which is a locally fitted linear function is:
+
+	Fi : Hi(Gi(x))
+where,
+	Hi is as stated above and
+	Gi : S^2 -> Ui 
+"""
 import numpy as np 
 from sklearn import linear_model  
 from sklearn.preprocessing import PolynomialFeatures
@@ -33,19 +44,22 @@ def Regression(X, polynomial=False):
 	saved_params = reg.coef_
 	return saved_params
 
-chart1_params = Regression(chart1.values())
-chart2_params = Regression(chart2.values())
-chart3_params = Regression(chart3.values())
-chart4_params = Regression(chart4.values())
-chart5_params = Regression(chart5.values())
-chart6_params = Regression(chart6.values())
+def fit_locally(chart1, chart2, chart3, chart4, chart5, chart6):
+	chart1_params = Regression(chart1.values())
+	chart2_params = Regression(chart2.values())
+	chart3_params = Regression(chart3.values())
+	chart4_params = Regression(chart4.values())
+	chart5_params = Regression(chart5.values())
+	chart6_params = Regression(chart6.values())
 
-# A dictionary for storing the parameters
-regression_params = {
-	'chart1' : chart1_params,
-	'chart2' : chart2_params,
-	'chart3' : chart3_params,
-	'chart4' : chart4_params,
-	'chart5' : chart5_params,
-	'chart6' : chart6_params,
-}
+	# A dictionary for storing the parameters
+	regression_params = {
+		'chart1' : chart1_params,
+		'chart2' : chart2_params,
+		'chart3' : chart3_params,
+		'chart4' : chart4_params,
+		'chart5' : chart5_params,
+		'chart6' : chart6_params,
+	}
+
+	return regression_params
