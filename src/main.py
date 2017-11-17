@@ -1,6 +1,5 @@
 import numpy as np
 import pprint
-from datetime import datetime
 from itertools import compress   
 
 from bumpfunction import BumpFunction
@@ -129,17 +128,18 @@ def global_approximation(set_of_points, regression_params):
 	return global_values
 	#pprint.pprint(global_values)
 	
-def f_true(testing_set):
+def f_true(a_set):
 	"""
 	Returns the value to be compared with the approximated value for evaluation on testing set 
 	Here we take:
-		f_true(x1, x2, x3) = x1 
+		f_true(x1, x2, x3) = x1 + e
 	where,
-		(x1, x2, x3) is a sample from our embedded manifold with the 3 values as the coordinates in 3D space
+		(x1, x2, x3) is a sample from our embedded manifold with the 3 values as the coordinates in 3D space, and
+		'e' is added gaussian noise
 	"""
 	true_function_values = dict()
-	for point_index, point in testing_set.iteritems():
-		value = point[0]  
+	for point_index, point in a_set.iteritems():
+		value = point[0] + np.random.normal(0,1)
 		true_function_values[point_index] = value
 	return true_function_values
 
@@ -152,32 +152,46 @@ def holdout_method():
 	chart_1, chart_2, chart_3, chart_4, chart_5, chart_6 = CreateCharts(training_set, return_for_evaluating=True)
 	regression_params = fit_locally(chart_1, chart_2, chart_3, chart_4, chart_5, chart_6)
 
-	true_function_vals = f_true(testing_set)
-	
-	#Calculating time
-	start_time = datetime.now()
-	global_vals = global_approximation(testing_set, regression_params)
-	end_time = datetime.now()
+	# Fitting function on training data using PoU and Linear regression
+	global_vals_training = global_approximation(training_set, regression_params)
 
-	#Calculating mean of the sum of squared loss and standard deviation
-	loss_array = []
-	for (true, approximated) in zip(true_function_vals.values(), global_vals.values()):
-			loss_array.append(true - approximated)
-	total_loss = np.sum(np.abs(loss_array))
-	average_loss = np.mean(loss_array)
-	mean_squared_loss = np.mean(np.square(loss_array))
-	standard_deviation = np.sqrt(np.mean(map(lambda x : np.square(x - average_loss), loss_array)))
-	 
-	print ("Total loss for the testing dataset is : {}, \n"
-			"Average loss for the testing dataset is : {}, \n"
-			"Mean Squared error/ loss : {} \n"
-			"Standard Deviation : +/- {} \n"
-			"Time taken for fitting function : {} seconds").format(total_loss, average_loss, mean_squared_loss, \
-												standard_deviation, (end_time - start_time).total_seconds())
+	# Extrapolating the learned parameters from training set to evaluate on testing set
+	global_vals_testing = global_approximation(testing_set, regression_params)
 	
+	# Evaluating the true function values of training and testing set
+	testing_true = f_true(testing_set)
+	training_true = f_true(training_set)
+	
+	#Arrays for training and test losses
+	testing_loss_array = []
+	training_loss_array = []
+	
+	# Test set loss
+	for (true, approximated) in zip(testing_true.values(), global_vals_testing.values()):
+		testing_loss_array.append(true - approximated)
+
+	# Training set loss
+	for (true, approximated) in zip(training_true.values(), global_vals_training.values()):
+		training_loss_array.append(true - approximated)
+	
+	average_test_loss, average_training_loss = np.mean(testing_loss_array), np.mean(training_loss_array)
+	
+	# Calculating MSE and standard deviation for loss reported on test set 
+	mean_squared_loss = np.mean(np.square(testing_loss_array))
+	standard_deviation = np.sqrt(np.mean(map(lambda x : np.square(x - average_test_loss), testing_loss_array)))
+	 
+	print ("Average loss for the testing dataset is : {}, \n"
+			"Average loss for the training dataset is : {}, \n"
+			"Mean Squared error/ loss : {} \n"
+			"Standard Deviation : +/- {} \n").format(average_test_loss, average_training_loss, \
+													mean_squared_loss, standard_deviation) \
+																
 	#Printing the global values for testing dataset
-	print "The global approximated values for the local fitted functions are : "
-	pprint.pprint(global_vals)
+	print "The global approximated values for the local fitted functions (on training set) : "
+	pprint.pprint(global_vals_training)
+
+	print "The global approximated values for the local fitted functions are (on testing set): "
+	pprint.pprint(global_vals_testing)
 
 if __name__=="__main__":
 	holdout_method()
