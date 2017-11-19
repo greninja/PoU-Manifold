@@ -132,14 +132,13 @@ def f_true(a_set):
 	"""
 	Returns the value to be compared with the approximated value for evaluation on testing set 
 	Here we take:
-		f_true(x1, x2, x3) = x1 + e
+		f_true(x1, x2, x3) = x1 
 	where,
 		(x1, x2, x3) is a sample from our embedded manifold with the 3 values as the coordinates in 3D space, and
-		'e' is added gaussian noise
 	"""
 	true_function_values = dict()
 	for point_index, point in a_set.iteritems():
-		value = point[0] + np.random.normal(0,1)
+		value = point[0] 
 		true_function_values[point_index] = value
 	return true_function_values
 
@@ -159,9 +158,13 @@ def holdout_method():
 	global_vals_testing = global_approximation(testing_set, regression_params)
 	
 	# Evaluating the true function values of training and testing set
-	testing_true = f_true(testing_set)
 	training_true = f_true(training_set)
-	
+	testing_true = f_true(testing_set)
+
+	# Adding gaussian noise to true values to evaluate the fitted function with true values
+	for (key1,value1), (key2, value2) in zip(training_true.items(), testing_true.items()):
+		training_true[key1], testing_true[key2] = value1 + np.random.normal(0,1), value2 + np.random.normal(0,1)
+
 	#Arrays for training and test losses
 	testing_loss_array = []
 	training_loss_array = []
