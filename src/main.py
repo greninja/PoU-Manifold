@@ -84,7 +84,7 @@ def global_approximation(set_of_points, regression_params):
 	args:
 	-----------------------
 	set_of_points : A dictionary of datapoints and its indices
-	regression_params : A dictionary of chart names and their respective
+	regression_params : A dictionary of chart names and their respective learned regression parameters
 
 	"""
 	global_values = dict() 
