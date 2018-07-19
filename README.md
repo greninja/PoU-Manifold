@@ -6,14 +6,6 @@
 - `regression.py` 	 : Consists of a function used to fit linear/ polynomial curves to data using OLS
 - `visualization.py` : For visualizing spherical manifold and individual charts
 
-## To run:
-
-If you averse `.pyc` files:
-
-```
-~/src$ python -B main.py
-```
-
 ## Partition of unity:
 
 A [partition of unity](https://en.wikipedia.org/wiki/Partition_of_unity) is a useful, though technical, tool that helps us work in local coordinates. This can be a tricky matter when we’re doing things all over our manifold, since it’s almost never the case that the entire manifold fits into a single coordinate patch. A (smooth) partition of unity is a way of breaking the function with the constant value 1 up into a bunch of (smooth) pieces that are easier to work with.
