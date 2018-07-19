@@ -42,15 +42,11 @@ A [*bump function*](https://en.wikipedia.org/wiki/Bump_function) is a function o
 Partition of unity can be used to patch together local smooth objects into global ones.
 
 ## Approach:
+- We divide the manifold into 6 charts correponding to 6 R^2 discs. 
 
-- We have taken 3 smooth Bump Functions corresponding to each of the 3 charts a single datapoint lies in, at a time.
+- Each point on the original manifold now lies in 3 different charts (by observation). Corresponding to each of these 3 charts, we have introduced 3 smooth bump functions necessary for Partitons of Unity.
 
-- Here we are taking the sets in open cover to be coordinate charts of a manifold, collectively forming a smooth 
-[atlas](https://en.wikipedia.org/wiki/Atlas_(topology)), which are discs in R^2.
-
-- We have created 6 different charts from the dataset
-
-- We have fitted linear/ Polynomial curves, locally, on each chart. 
+- We then fit linear/ Polynomial curves, locally, on each chart. 
 
 - Final approximation for a point 'x' lying on the manifold is computed as : ∑ f(x_i)φ(x_i) where f(x_i) and φ(x_i) are the linearly fitted function value of 'x' and the bump function value of 'x' in the ith chart, respectively. The summation is taken over all the i (here i = 3) charts a point lies in.    
 
