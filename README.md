@@ -11,7 +11,6 @@
 If you averse `.pyc` files:
 
 ```
-~$ cd src/
 ~/src$ python -B main.py
 ```
 
@@ -44,7 +43,7 @@ Partition of unity can be used to patch together local smooth objects into globa
 
 ## Approach:
 
-- We have taken 2 smooth Bump Functions corresponding to each of the 3 charts a single datapoint lies in, at a time.
+- We have taken 3 smooth Bump Functions corresponding to each of the 3 charts a single datapoint lies in, at a time.
 
 - Here we are taking the sets in open cover to be coordinate charts of a manifold, collectively forming a smooth 
 [atlas](https://en.wikipedia.org/wiki/Atlas_(topology)), which are discs in R^2.
@@ -52,6 +51,8 @@ Partition of unity can be used to patch together local smooth objects into globa
 - We have created 6 different charts from the dataset
 
 - We have fitted linear/ Polynomial curves, locally, on each chart. 
+
+- Final approximation for a point 'x' lying on the manifold is computed as : ∑ f(x_i)φ(x_i) where f(x_i) and φ(x_i) are the linearly fitted function value of 'x' and the bump function value of 'x' in the ith chart, respectively. The summation is taken over all the i (here i = 3) charts a point lies in.    
 
 ## Possible further work : 
 
