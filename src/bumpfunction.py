@@ -69,7 +69,7 @@ class BumpFunction():
 def plot_main():
 	fig = plt.figure(figsize=plt.figaspect(0.5))
 	bumpfunctionobj = BumpFunction() 
-	xi, yi, zi = sample_spherical(500)
+	xi, yi, zi = sample_spherical(300)
 	merged_sample_points = zip(xi, yi)
 	
 	# For 2 bump functions

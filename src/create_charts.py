@@ -6,7 +6,6 @@ normalize these vectors (X:= X / ||X||) to make it lie on a sphere
 (S^2) which acts as an embedded manifold in 3-D ambient space. 
 """
 import numpy as np 
-
 def sample_spherical(npoints, ndim=3):
     vec = np.random.randn(ndim, npoints)
     vec /= np.linalg.norm(vec, axis=0)
@@ -18,7 +17,7 @@ x = np.outer(np.sin(theta), np.cos(phi))
 y = np.outer(np.sin(theta), np.sin(phi))
 z = np.outer(np.cos(theta), np.ones_like(phi))
 """
-xi, yi, zi = sample_spherical(100)
+xi, yi, zi = sample_spherical(1000)
 data_points = []
 map(lambda x,y,z : data_points.append((x,y,z)), xi,yi,zi)     
 dictionary_datapoints = {k:np.array(v) for k,v in enumerate(data_points)}
